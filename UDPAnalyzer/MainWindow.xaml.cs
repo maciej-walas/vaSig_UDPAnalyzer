@@ -22,7 +22,6 @@ namespace UDPAnalyzer
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private const int MaxPortRange = 65535;
         private uint _random;
         private bool _filterApplied;
 
@@ -62,10 +61,10 @@ namespace UDPAnalyzer
 
         private void ListenerServiceOnDataReceived(object sender, ReceivedDataArgs args)
         {
-            _random = RandomGenerator.GetRandomNumber();
-
             var dataToSend = $"ACK! {_random}";
             _udpServerService.Send(args.ReceivedDatagram.IpAddress.ToString(),args.ReceivedDatagram.Port, dataToSend);
+
+            _random = RandomGenerator.GetRandomNumber();
 
             Dispatcher.Invoke(() => {
                 _receivedData.Add(args.ReceivedDatagram);
@@ -109,9 +108,9 @@ namespace UDPAnalyzer
             {
                 if (ipAddressString.Length != 0) ipAddress = IPAddress.Parse(ipAddressString);
                 var parsed = int.TryParse(portString, out port);
-                if (!parsed || port is < 0 or > MaxPortRange)
+                if (!parsed || port is < IPEndPoint.MinPort or > IPEndPoint.MaxPort)
                 {
-                    await this.ShowMessageAsync("Wrong port number", $"The port number must be between 0 and {MaxPortRange}");
+                    await this.ShowMessageAsync("Wrong port number", $"The port number must be between {IPEndPoint.MinPort} and {IPEndPoint.MaxPort}");
                     return;
                 }
             }

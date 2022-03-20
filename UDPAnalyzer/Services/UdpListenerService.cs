@@ -46,13 +46,9 @@ namespace UDPAnalyzer.Services
             _disposed = true;
             try
             {
-                _udpClient.Close();
+                _udpClient?.Close();
             }
             catch (ObjectDisposedException)
-            {
-
-            }
-            catch (NullReferenceException)
             {
 
             }

@@ -189,7 +189,7 @@ namespace UDPAnalyzer
         {
             try
             {
-                _listenerService.Dispose();
+                _listenerService?.Dispose();
             }
             catch (NullReferenceException)
             {

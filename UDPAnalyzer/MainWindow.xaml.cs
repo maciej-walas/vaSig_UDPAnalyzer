@@ -114,7 +114,6 @@ namespace UDPAnalyzer
                     await this.ShowMessageAsync("Wrong port number", $"The port number must be between 0 and {MaxPortRange}");
                     return;
                 }
-
             }
             catch (ArgumentNullException)
             {
@@ -138,7 +137,6 @@ namespace UDPAnalyzer
                 IpAddressTextBox.Text = ipAddress.ToString();
                 ListenState.Content = $"Listening on {(Equals(ipAddress, IPAddress.Any) ? "all IPs" : ipAddress.ToString())} on port: {port}";
                 EnableUserControls(false);
-
             }
             catch (SocketException ex)
             {
@@ -199,23 +197,6 @@ namespace UDPAnalyzer
             }
         }
 
-        private void Filter(bool isEnabled)
-        {
-            var receivedDataFilter = new Predicate<object>(item => _portList.Any(x => x.IpAddress.Equals(((ReceivedDatagram)item).IpAddress) && x.Port.Equals(((ReceivedDatagram)item).Port) && x.Checked));
-            _receivedDataFiltered.Filter = isEnabled ? receivedDataFilter : null;
-            _filterApplied = isEnabled;
-        }
-
-        private void EnableUserControls(bool enabled)
-        {
-            PortTextBox.IsEnabled = enabled;
-            IpAddressTextBox.IsEnabled = enabled;
-            StartListening.IsEnabled = enabled;
-            StopListening.IsEnabled = !enabled;
-            ProgressBar.IsIndeterminate = !enabled;
-            ProgressBar.Visibility = enabled ? Visibility.Hidden : Visibility.Visible;
-        }
-
         private void ReceivedDataGrid_CurrentCellChanged(object sender, EventArgs e)
         {
             var receivedDataItem = (ReceivedDatagram)ReceivedDataGrid.CurrentItem;
@@ -228,7 +209,35 @@ namespace UDPAnalyzer
             FlyoutRawData.Document.Blocks.Add(new Paragraph(new Run(Convert.ToHexString(receivedDataItem.ReceivedRaw))));
             FlyoutStringData.Document.Blocks.Clear();
             FlyoutStringData.Document.Blocks.Add(new Paragraph(new Run(receivedDataItem.ReceivedString)));
-            this.ReceivedDataFlyout.IsOpen = true;
+            ReceivedDataFlyout.IsOpen = true;
+        }
+
+        private void AddNewToFilter_Checked(object sender, RoutedEventArgs e)
+        {
+            Filter(true);
+        }
+
+        private void AddNewToFilter_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Filter(true);
+        }
+
+        private void Filter(bool isEnabled)
+        {
+            var receivedDataFilter = new Predicate<object>(item => _portList.Any(x => x.IpAddress.Equals(((ReceivedDatagram)item).IpAddress) && x.Port.Equals(((ReceivedDatagram)item).Port) && x.Checked));
+            if (_receivedDataFiltered == null) return;
+            _receivedDataFiltered.Filter = isEnabled ? receivedDataFilter : null;
+            _filterApplied = isEnabled;
+        }
+
+        private void EnableUserControls(bool enabled)
+        {
+            PortTextBox.IsEnabled = enabled;
+            IpAddressTextBox.IsEnabled = enabled;
+            StartListening.IsEnabled = enabled;
+            StopListening.IsEnabled = !enabled;
+            ProgressBar.IsIndeterminate = !enabled;
+            ProgressBar.Visibility = enabled ? Visibility.Hidden : Visibility.Visible;
         }
     }
 }

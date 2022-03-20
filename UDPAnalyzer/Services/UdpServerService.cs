@@ -26,5 +26,4 @@ namespace UDPAnalyzer.Services
             _udpClient.Close();
         }
     }
-
 }

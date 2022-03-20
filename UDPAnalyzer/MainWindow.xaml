@@ -69,11 +69,11 @@
                             <DataGridTextColumn Binding="{Binding IpAddress}" CanUserSort="True" Header="IP Address"/>
                             <DataGridTextColumn Binding="{Binding Port}" Header="Port"/>
                             <DataGridTextColumn Binding="{Binding Count}" Header="Count"/>
-                            <DataGridTextColumn  Binding="{Binding LastTime, StringFormat=\{0:yyyy-MM-dd hh:mm:ss+fff\}}" Header="Last seen on" Width="1*"/>
+                            <DataGridTextColumn  Binding="{Binding LastTime, StringFormat=\{0:yyyy-MM-dd HH:mm:ss+fff\}}" Header="Last seen on" Width="1*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Grid.ColumnSpan="2">
-                        <CheckBox x:Name="AddNewToFilter" Content="Add new data to filter" Margin="0,0,10,0" IsChecked="True"/>
+                        <CheckBox x:Name="AddNewToFilter" Content="Add new items to filter" Margin="0,0,10,0" IsChecked="True" Checked="AddNewToFilter_Checked" Unchecked="AddNewToFilter_Unchecked"/>
                         <Button x:Name="ShowAll" Content="Clear filters"  Height="26" Margin="0,0,5,0" IsEnabled="True" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="ShowAll_Click"/>
                         <Button x:Name="ApplyFilters" Content="Apply filters" Height="26" Margin="0,0,5,0" IsEnabled="True" Style="{StaticResource MahApps.Styles.Button.Square.Accent}" Click="ApplyFilters_Click"/>
                     </StackPanel>
@@ -82,7 +82,7 @@
             <GroupBox  Margin="3,3,3,3" Header="Received data" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
                 <DataGrid x:Name="ReceivedDataGrid" d:ItemsSource="{Binding }" Margin="0" AlternatingRowBackground="#FFDEDEDE" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" ColumnWidth="SizeToHeader" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" CurrentCellChanged="ReceivedDataGrid_CurrentCellChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Timestamp, StringFormat=\{0:yyyy-MM-dd hh:mm:ss+fff\}}" Header="Timestamp" SortDirection="Descending" SortMemberPath="Timestamp" Width="160"/>
+                        <DataGridTextColumn Binding="{Binding Timestamp, StringFormat=\{0:yyyy-MM-dd HH:mm:ss+fff\}}" Header="Timestamp" SortDirection="Descending" SortMemberPath="Timestamp" Width="160"/>
                         <DataGridTextColumn Binding="{Binding IpAddress}" Header="IP Address"/>
                         <DataGridTextColumn Binding="{Binding Port}" Header="Port"/>
                         <DataGridTextColumn Binding="{Binding Size, StringFormat=\{0\} bytes}" Header="Size" Width="80"/>

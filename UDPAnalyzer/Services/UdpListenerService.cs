@@ -11,7 +11,6 @@ namespace UDPAnalyzer.Services
         private UdpClient _udpClient;
         private IPEndPoint _remoteIpEndPoint;
         private bool _disposed;
-
         public delegate void DataReceived(object sender, ReceivedDataArgs args);
         public event DataReceived DataReceivedEvent;
 
@@ -82,5 +81,4 @@ namespace UDPAnalyzer.Services
             ReceivedDatagram = new ReceivedDatagram(ipAddress, port, receivedDataBytes);
         }
     }
-
 }
